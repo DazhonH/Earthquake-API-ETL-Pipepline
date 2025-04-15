@@ -94,7 +94,9 @@ After a successful setup, I received the credentials to Postgres and Airflow's U
 <br><br>
 <img width="634" alt="Astro credentials" src="https://github.com/user-attachments/assets/ea185320-4fd0-475c-95b8-f177f33b1a99" />
 
-In the browser I now can see the example
+In the local environment under dags, I created a DAG file ETL.py to write my code.
+
+Below is the code to extract the data from the api, transform the data, and then loaded into my local Postgres.
 
 
 
