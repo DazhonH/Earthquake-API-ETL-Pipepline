@@ -98,5 +98,9 @@ In the local environment under dags, I created a DAG file ETL.py to write my cod
 
 Below is the code to extract the data from the api, transform the data, and then loaded into my local Postgres.
 
+[ETL Pipeline Code](https://github.com/DazhonH/Earthquake-API-ETL-Pipepline/blob/6e7ee48dff2b89056c2c76d0627afe740dad2567/Code/DAG%20-%20ETL.py)
+
+After initializing my dag, it appeared in Airflow's UI and I clicked the play button to run the pipeline.
+
 
 
