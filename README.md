@@ -100,7 +100,23 @@ Below is the code to extract the data from the api, transform the data, and then
 
 [ETL Pipeline Code](https://github.com/DazhonH/Earthquake-API-ETL-Pipepline/blob/6e7ee48dff2b89056c2c76d0627afe740dad2567/Code/DAG%20-%20ETL.py)
 
-After initializing my dag, it appeared in Airflow's UI and I clicked the play button to run the pipeline.
+After initializing my dag, it appeared in Airflow's UI.
+
+Before running the dag, I connected to Postgres via admin - connections.
+
+I pressed play to run the dag and it was succesful.
+<br><br>
+
+<img width="1431" alt="ETL Airflow Success" src="https://github.com/user-attachments/assets/d7ccb007-9bd6-4822-a9cc-5872386740fb" />
+
+<br><br>
+
+<img width="1440" alt="ETl Airflow 2" src="https://github.com/user-attachments/assets/8ac1e709-a3cb-4f3f-8e6d-0ef42e7e8691" />
+
+Once the data was loaded into my local Postgres, I derived a couple of insights.
+
+
+
 
 
 
