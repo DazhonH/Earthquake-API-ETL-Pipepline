@@ -104,7 +104,7 @@ After initializing my dag, it appeared in Airflow's UI.
 
 Before running the dag, I connected to Postgres via admin - connections.
 
-I pressed play to run the dag and it was succesful.
+I pressed play to run the dag and it was successful.
 <br><br>
 
 <img width="1431" alt="ETL Airflow Success" src="https://github.com/user-attachments/assets/d7ccb007-9bd6-4822-a9cc-5872386740fb" />
@@ -116,7 +116,82 @@ I pressed play to run the dag and it was succesful.
 Once the data was loaded into my local Postgres, I derived a couple of insights.
 
 
+ 1. Finding earthquakes with high sig_class.
+
+```sql
+   SELECT DISTINCT ON (state_province)
+       state_province,
+	   place,
+	   sig_class
+FROM earthquake
+WHERE sig_class = 'High'
+GROUP BY place,
+         state_province,
+		 sig_class
+ORDER BY state_province,
+        sig_class DESC
+LIMIT 5;
+```
+<img width="583" alt="1 SQL" src="https://github.com/user-attachments/assets/48ec5c5b-9f19-4044-91f4-6459f4ef5779" />
+<br><br>
 
 
+2. Top 5 states/provinces by count of earthquakes.
+
+```sql
+SELECT state_province,
+	   Count(*) AS quake_count
+FROM earthquake
+GROUP BY state_province
+ORDER BY quake_count DESC
+LIMIT 5;
+```
+<img width="333" alt="2 SQL" src="https://github.com/user-attachments/assets/6f0eb1ab-b713-46e8-b235-d19489d20d83" />
+<br><br>
+ 
+3. Number of earthquakes by elevation.
+
+```sql
+SELECT CASE 
+            WHEN elevation < 0 THEN 'Below Sea Level'
+            WHEN elevation BETWEEN 0 AND 500 THEN '0-500m'
+            WHEN elevation BETWEEN 501 AND 1000 THEN '501-1000m'
+            ELSE 'Above 1000m'
+       END AS elevation_range,
+       COUNT(*) AS quake_count
+FROM earthquake
+GROUP BY elevation_range
+ORDER BY quake_count DESC;
+```
+<img width="338" alt="3 SQL" src="https://github.com/user-attachments/assets/4b793a60-2015-40ea-8904-8debc44ad68d" />
+<br><br>
 
 
+4. Top 5 strongest earthquakes by magnitude.
+
+```sql
+SELECT state_province, 
+       ROUND(AVG(mag)::NUMERIC, 2) AS avg_magnitude
+FROM earthquake
+GROUP BY state_province
+ORDER BY avg_magnitude DESC
+LIMIT 5;
+```
+<img width="375" alt="4 SQL" src="https://github.com/user-attachments/assets/6f6556c1-ee7b-49f6-ad0e-c4cf04161f42" />
+<br><br>
+
+Lastly, the data was ingested into Tableau for visualization. (Scroll to the top)
+<img width="1437" alt=" Tableau Screenshot" src="https://github.com/user-attachments/assets/2e63593f-ffbf-4aa0-bb7e-b110847faab4" />
+<br><br>
+
+Tableau public was used because I do not have Tableau Desktop downloaded. With Tableau Public, I;m only able to upload CSV files and not connect to any sources.
+
+# Problems
+
+1. When creating my airflow environment, port 5432 was in use on a Postgres server. In airflow using Astronomer, Postgres is automatically mapped to 5432. This caused the failure for the environment set-up. However, port 5433 was free. To change the sql mapping, i wrote this into the terminal:
+
+```bash
+
+astro config set postgres.port 5433
+
+```
